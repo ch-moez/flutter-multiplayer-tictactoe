@@ -1,0 +1,11 @@
+To allow select image from macOs :
+
+Add this line in : 
+  - macos/Runner/DebugProfile.entitlements
+  and
+  - macos/Runner/Release.entitlements
+
+
+
+	<key>com.apple.security.files.user-selected.read-only</key>
+	<true/>

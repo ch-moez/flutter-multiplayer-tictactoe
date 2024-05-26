@@ -1,0 +1,22 @@
+#To Build the app in ios :
+1- uncomment this line in ios/Podfile
+platform :ios, '12.0'
+
+2- Comment this line in ios/Podfile
+  #target 'RunnerTests' do
+  #  inherit! :search_paths
+  #end
+
+3- In Xcode disable User Script Sandbox
+    User Script Sandbox : No
+
+4- In info.pist add this line :
+	<key>FLTEnableImpeller</key>
+	<false />
+
+5- Add Google ads in info.plist :
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3940256099942544~1458002511</string>
+
+6- Comment Firebase in main.dart/main_Tounsi.dart or activat it with correct APP ID :
+  //await gFirebaseService.initFirebase();

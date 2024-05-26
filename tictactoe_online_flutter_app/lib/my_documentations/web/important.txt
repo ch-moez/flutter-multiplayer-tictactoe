@@ -1,0 +1,6 @@
+
+Add this line in index.html : 
+    <!-- This script installs service_worker.js to provide PWA functionality to Do work Image.Network('some-url')-->
+    <script type="text/javascript">
+        window.flutterWebRenderer = "html";
+    </script>

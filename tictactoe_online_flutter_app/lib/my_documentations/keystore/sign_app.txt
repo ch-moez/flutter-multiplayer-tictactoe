@@ -1,0 +1,50 @@
+https://docs.flutter.dev/deployment/android
+
+
+Configure signing in gradle
+#
+When building your app in release mode, configure gradle to use your upload key. To configure gradle, edit the <project>/android/app/build.gradle file.
+
+Add the keystore information from your properties file before the android block:
+
++   def keystoreProperties = new Properties()
++   def keystorePropertiesFile = rootProject.file('key.properties')
++   if (keystorePropertiesFile.exists()) {
++       keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
++   }
++
+   android {
+      ...
+   }
+
+
+
+Load the key.properties file into the keystoreProperties object.
+
+Add the signing configuration before the buildTypes block:
+
++   signingConfigs {
++       release {
++           keyAlias keystoreProperties['keyAlias']
++           keyPassword keystoreProperties['keyPassword']
++           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
++           storePassword keystoreProperties['storePassword']
++       }
++   }
+   buildTypes {
+      release {
+         // TODO: Add your own signing config for the release build.
+         // Signing with the debug keys for now,
+         // so `flutter run --release` works.
+-           signingConfig signingConfigs.debug
++           signingConfig signingConfigs.release
+      }
+   }
+
+
+
+flutter build apk 
+    or 
+flutter build appbundle
+
+To enable multidex from the command line, run flutter run --debug and select an Android device:
