@@ -49,6 +49,11 @@ app.get("/", function (req, res) {
   res.send("It's works!");
 });
 
+app.get("/delete-rooms", function (req, res) {
+  deleteAllRooms();
+  res.send("All rooms was deleted.");
+});
+
 io.on("connection", (socket) => {
   console.log("_________________Socket connected____________________________");
   console.log("Socket connected, socket.id : ", socket.id);
