@@ -20,14 +20,17 @@ class RoomList extends StatelessWidget {
     debugPrint('RoomList ${socketController.rooms}');
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Room List'),
+        centerTitle: true,
+      ),
       body: Center(
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //const SizedBox(width: double.infinity),
-            Text('socketId : ${socketController.socketId}'),
+            Text('Your ID : ${socketController.socketId}'),
             SizedBox(
               height: Get.height * 0.8,
               child: Center(

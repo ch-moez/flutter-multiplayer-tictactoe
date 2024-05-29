@@ -36,59 +36,73 @@ class MainMenuScreen extends StatelessWidget {
         title: Text(platformName.toUpperCase()),
         centerTitle: true,
       ),
-      body: Responsive(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-            const CustomText(
-              text: 'Tic Tac Toe',
-              shadows: [
-                Shadow(blurRadius: 40, color: Colors.blue),
-              ],
-              fontSize: 50,
-            ),
-            const SizedBox(height: 10),
-            const CustomText(
-              text: 'Online Multiplayer Game',
-              shadows: [
-                Shadow(blurRadius: 40, color: Colors.blue),
-              ],
-              fontSize: 20,
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: CustomButton(
-                onTap: () => createRoom(context),
-                text: 'Create Room',
+      body: SafeArea(
+        child: Responsive(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+              const CustomText(
+                text: 'Tic Tac Toe',
+                shadows: [
+                  Shadow(blurRadius: 40, color: Colors.blue),
+                ],
+                fontSize: 50,
               ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: CustomButton(
-                onTap: () => joinRoom(context),
-                text: 'Join Room',
+              const SizedBox(height: 10),
+              const CustomText(
+                text: 'Online Multiplayer Game',
+                shadows: [
+                  Shadow(blurRadius: 40, color: Colors.blue),
+                ],
+                fontSize: 20,
               ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: CustomButton(
-                onTap: () => Get.to(const RoomList()),
-                text: 'Room List',
+              const SizedBox(height: 10),
+              CustomText(
+                text: 'Your Platform : $platformName',
+                shadows: const [
+                  Shadow(blurRadius: 40, color: Colors.blue),
+                ],
+                fontSize: 15,
               ),
-            ),
-            const SizedBox(height: 80),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: CustomButton(
-                onTap: () => Get.to(SettingsScreen()),
-                text: 'Settings',
+              const SizedBox(height: 10),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: CustomButton(
+                  onTap: () => createRoom(context),
+                  text: 'Create Room',
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: CustomButton(
+                  onTap: () => joinRoom(context),
+                  text: 'Join Room',
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: CustomButton(
+                  onTap: () => Get.to(const RoomList()),
+                  text: 'Room List',
+                ),
+              ),
+              const SizedBox(height: 80),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: CustomButton(
+                  onTap: () => Get.to(SettingsScreen()),
+                  text: 'Settings',
+                ),
+              ),
+              const Spacer(),
+              const Text('Made with ❤️ by Cross Tech'),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
+import '../controllers/room_controller.dart';
 import '../provider/room_data_provider.dart';
 import 'utils.dart';
 
 class GameMethods {
+  RoomController roomController = Get.put(RoomController());
+
   void checkWinner(BuildContext context, Socket socketClent) {
-    RoomDataProvider roomDataProvider =
-        Provider.of<RoomDataProvider>(context, listen: false);
+    //RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context, listen: false);
+    var roomDataProvider = roomController;
 
     String winner = '';
 
@@ -95,8 +99,8 @@ class GameMethods {
   }
 
   void clearBoard(BuildContext context) {
-    RoomDataProvider roomDataProvider =
-        Provider.of<RoomDataProvider>(context, listen: false);
+    //RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context, listen: false);
+    var roomDataProvider = roomController;
 
     for (int i = 0; i < roomDataProvider.displayElements.length; i++) {
       roomDataProvider.updateDisplayElements(i, '');

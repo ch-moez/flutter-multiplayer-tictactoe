@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
-import '../screens/game_screen.dart';
+import '../provider/room_data_provider.dart';
+import '../screens/game_screen/game_screen.dart';
 import '../screens/room_list.dart';
 import '../util/game_methods.dart';
 import '../util/socket_client.dart';
@@ -74,8 +76,14 @@ class SocketController extends GetxController {
     debugPrint('joinRoom: $nickname, $roomId');
     if (nickname.isEmpty || roomId.isEmpty) return;
     isLoading.value = true;
-    _socketMethods.joinRoom(socketId.value, roomId);
-    Get.to(const GameScreen());
+    //_socketMethods.joinRoom(socketId.value, roomId);
+
+    _socketClient.emit('joinRoom', {
+      'nickname': nickname,
+      'roomId': roomId,
+    });
+
+    //Get.to(const GameScreen());
   }
 
   void tapGrid(int index, String roomId, List<String> displayElements) {
@@ -83,10 +91,10 @@ class SocketController extends GetxController {
     _socketMethods.tapGrid(index, roomId, displayElements);
   }
 
-  void updateRoomData(Map<String, dynamic> data) {
+  /* void updateRoomData(Map<String, dynamic> data) {
     isLoading.value = true;
     //_socketMethods.updateRoomData(data);
-  }
+  } */
 
   void updatePlayer1(Map<String, dynamic> player1Data) {
     isLoading.value = true;
@@ -123,7 +131,7 @@ class SocketController extends GetxController {
     _socketClient.on('joinRoomSuccess', (room) {
       debugPrint('joinRoomSuccess room : $room');
       //Navigator.pushNamed(context, GameScreen.routeName);
-      Get.to(const GameScreen(), arguments: room);
+      Get.to(const GameScreen());
     });
   }
 
@@ -177,6 +185,12 @@ class SocketController extends GetxController {
     _socketClient.on('endGame', (playerData) {
       showGameDialog(context, '${playerData['nickname']} won the game!');
       Navigator.popUntil(context, (route) => false);
+    });
+  }
+
+  void errorOccuredListener(BuildContext context) {
+    _socketClient.on('errorOccurred', (data) {
+      showSnackBar(context, data);
     });
   }
 }

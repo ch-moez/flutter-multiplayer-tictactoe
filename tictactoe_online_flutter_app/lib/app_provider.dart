@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'provider/room_data_provider.dart';
 import 'screens/create_room_screen.dart';
-import 'screens/game_screen.dart';
+import 'screens/game_screen/game_screen.dart';
 import 'screens/join_room_screen.dart';
 import 'screens/main_menu_screen.dart';
 import 'screens/room_list.dart';

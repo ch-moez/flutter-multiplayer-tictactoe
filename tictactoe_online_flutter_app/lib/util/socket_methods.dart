@@ -5,8 +5,9 @@ import 'package:socket_io_client/socket_io_client.dart';
 import 'package:webscoket_app/screens/room_list.dart';
 import 'package:webscoket_app/util/utils.dart';
 
+import '../controllers/room_controller.dart';
 import '../provider/room_data_provider.dart';
-import '../screens/game_screen.dart';
+import '../screens/game_screen/game_screen.dart';
 import 'game_methods.dart';
 import 'socket_client.dart';
 
@@ -15,6 +16,8 @@ class SocketMethods {
 
   Socket get socketClient => _socketClient;
   bool get isConnected => _socketClient.connected;
+
+  RoomController roomController = Get.put(RoomController());
 
   // EMITS
   void createRoom(String nickname) {
@@ -47,8 +50,9 @@ class SocketMethods {
   void createRoomSuccessListener(BuildContext context) {
     try {
       _socketClient.on('createRoomSuccess', (room) {
-        Provider.of<RoomDataProvider>(context, listen: false)
-            .updateRoomData(room);
+        //Provider.of<RoomDataProvider>(context, listen: false).updateRoomData(room);
+
+        roomController.updateRoomData(room);
         //Navigator.pushNamed(context, GameScreen.routeName);
         //Navigator.pushNamed(context, RoomList.routeName);
         Get.off(const GameScreen());
@@ -62,8 +66,8 @@ class SocketMethods {
 
   void joinRoomSuccessListener(BuildContext context) {
     _socketClient.on('joinRoomSuccess', (room) {
-      Provider.of<RoomDataProvider>(context, listen: false)
-          .updateRoomData(room);
+      //Provider.of<RoomDataProvider>(context, listen: false).updateRoomData(room);
+      roomController.updateRoomData(room);
       Navigator.pushNamed(context, GameScreen.routeName);
     });
   }
@@ -76,31 +80,39 @@ class SocketMethods {
 
   void updatePlayersStateListener(BuildContext context) {
     _socketClient.on('updatePlayers', (playerData) {
-      Provider.of<RoomDataProvider>(context, listen: false).updatePlayer1(
+      /* Provider.of<RoomDataProvider>(context, listen: false).updatePlayer1(
         playerData[0],
-      );
-      Provider.of<RoomDataProvider>(context, listen: false).updatePlayer2(
+      ); */
+      roomController.updatePlayer1(playerData[0]);
+
+      /* Provider.of<RoomDataProvider>(context, listen: false).updatePlayer2(
         playerData[1],
-      );
+      ); */
+      roomController.updatePlayer2(playerData[1]);
     });
   }
 
   void updateRoomListener(BuildContext context) {
     _socketClient.on('updateRoom', (data) {
-      Provider.of<RoomDataProvider>(context, listen: false)
-          .updateRoomData(data);
+      //Provider.of<RoomDataProvider>(context, listen: false).updateRoomData(data);
+      roomController.updateRoomData(data);
     });
   }
 
   void tappedListener(BuildContext context) {
     _socketClient.on('tapped', (data) {
-      RoomDataProvider roomDataProvider =
-          Provider.of<RoomDataProvider>(context, listen: false);
+      /*RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context, listen: false);
       roomDataProvider.updateDisplayElements(
         data['index'],
         data['choice'],
+      );*/
+      roomController.updateDisplayElements(
+        data['index'],
+        data['choice'],
       );
-      roomDataProvider.updateRoomData(data['room']);
+
+      //roomDataProvider.updateRoomData(data['room']);
+      roomController.updateRoomData(data['room']);
       // check winnner
       GameMethods().checkWinner(context, _socketClient);
     });
@@ -108,8 +120,9 @@ class SocketMethods {
 
   void pointIncreaseListener(BuildContext context) {
     _socketClient.on('pointIncrease', (playerData) {
-      var roomDataProvider =
-          Provider.of<RoomDataProvider>(context, listen: false);
+      //var roomDataProvider = Provider.of<RoomDataProvider>(context, listen: false);
+      var roomDataProvider = roomController;
+
       if (playerData['socketID'] == roomDataProvider.player1.socketID) {
         roomDataProvider.updatePlayer1(playerData);
       } else {
