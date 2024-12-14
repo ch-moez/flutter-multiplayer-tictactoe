@@ -4,11 +4,15 @@ const http = require("http");
 const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config();
+//const { connectDB, dbIsConnected } = require('./db'); // Importer la fonction de connexion et la variable
+const { connectDB } = require('./db'); // Importer la fonction de connexion et la variable
+
 
 const app = express();
 const port = 3000; //process.env.PORT || 3000;
 var server = http.createServer(app);
 const Room = require("./models/room");
+let dbIsConnected = false
 
 const cors = require("cors");
 
@@ -33,12 +37,6 @@ var io = require("socket.io")(server, {
   },
 });
 
-
-const DB =
-  "mongodb+srv://rivaan:test123@cluster0.rmhtu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-//const DB = "mongodb://localhost:27017/tic-tac-toe"; //Localhost is used for local development
-//const DB = process.env.MONGO_DB; //Localhost is used for local development
-
 const socketIds = [];
 const rooms = [];
 
@@ -46,7 +44,8 @@ const rooms = [];
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", function (req, res) {
-  res.send("It's works!");
+  console.log('dbIsConnected : ', dbIsConnected);
+  res.send("It's works!, dbIsConnected: " + dbIsConnected);
 });
 
 app.get("/delete-rooms", function (req, res) {
@@ -230,23 +229,38 @@ io.on("connection", (socket) => {
   });
 });
 
+//DB Connection
+const DB ="mongodb+srv://rivaan:test123@cluster0.rmhtu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+//const DB = "mongodb://localhost:27017/tic-tac-toe"; //Localhost is used for local development
+//const DB = process.env.MONGO_DB; //Localhost is used for local development
+
+
 mongoose
   .connect(DB)
   .then(() => {
+    dbIsConnected = true;
+    console.log("_________________________________");
     console.log("mongoose Connection successful!");
+    deleteAllRooms();
   })
   .catch((e) => {
+    dbIsConnected = false;
+    console.log("_____________x____x_____________");
     console.log("mongoose Connection failed!");
     console.log(e);
   });
 
+
+// Connexion à MongoDB
+//connectDB();
+
 server.listen(port, "0.0.0.0", () => {
   console.log(`Server started and running on port ${port}`);
   console.log(`http://localhost:${port}`);
-  console.log(`All rooms was deleted.`);
-  deleteAllRooms();
+  
 });
 
 let deleteAllRooms = async () => {
   await Room.deleteMany({});
+  console.log(`All rooms was deleted.`);
 };

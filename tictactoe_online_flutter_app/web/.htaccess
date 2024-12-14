@@ -1,0 +1,10 @@
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteEngine On
+
+# Si la connexion est HTTPS
+RewriteCond %{HTTPS} on
+# Redirige vers HTTP en conservant le domaine et le chemin
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [L,R=301]

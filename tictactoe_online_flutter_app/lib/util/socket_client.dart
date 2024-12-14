@@ -11,7 +11,7 @@ class SocketClient {
   static String socketId = '';
 
   //static String socketUrl = 'http://localhost:3000';
-  static String socketUrl = 'http://tic-tac-toe-server.node.how-much-now.com';
+  static String socketUrl = 'http://tic-tac-toe-server.node.how-much-now.com';// Not use https for Backend and Frontend
 
   void connect() {
     if (GetPlatform.isAndroid) {

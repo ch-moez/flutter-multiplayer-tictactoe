@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'app_provider.dart';
-import 'helpers/ad_helper.dart';
+//import 'helpers/ad_helper.dart';
 import 'services/services.dart';
 
 Future<void> main() async {
